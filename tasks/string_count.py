@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 # Given an input string, count occurrences of all characters within a string
 
-# TO DO : input verfication
-#import pyinputplus as pyip
+# sys.argv - always string
+# Input : Enything 
+
 import sys
 
 if __name__ == '__main__':

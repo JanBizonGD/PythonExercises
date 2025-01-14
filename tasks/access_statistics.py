@@ -3,8 +3,11 @@
 # The name of the file is provided as an argument.
 # An output of the script should provide the total number of different User Agents and then provide statistics with the number of requests from each of them
 
-# TO DO : input verfication
-#import pyinputplus as pyip
+# Search :
+# search from closing " and "..." in line - should occure only once in line
+
+# Input : access.log.5
+
 import sys
 import re
 
@@ -14,6 +17,6 @@ if __name__ == '__main__':
         print('Pass at least one argument.')
         exit(1)
     with open(args[0], 'r') as f:
-        user_agents = re.findall(r'\" \"(.*?)\"$', f.read(), re.M)
+        user_agents = re.findall(r'\" \"(.*?)\"$', f.read(), re.M) 
     for unique_agent in set(user_agents):
         print(user_agents.count(unique_agent), ":", unique_agent)
