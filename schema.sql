@@ -3,5 +3,26 @@ DROP TABLE IF EXISTS login;
 CREATE TABLE login (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     loginText TEXT NOT NULL UNIQUE,
-    passwordText TEXT NOT NULL
+    passwordText TEXT NOT NULL,
+    administrator BOOLEAN DEFAULT(FALSE),
+    bearerToken TEXT UNIQUE
 );
+
+DROP TABLE IF EXISTS pizza;
+
+CREATE TABLE pizza (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nameText TEXT NOT NULL UNIQUE,
+    ingredients TEXT[] NOT NULL,
+    price INTEGER DEFAULT(0)
+);
+
+-- DROP TABLE IF EXISTS orderTab;
+
+-- CREATE TABLE orderTab (
+--     id INTEGER PRIMARY KEY AUTOINCREMENT,
+--     user_id INTEGER FOREIGN KEY,
+--     pizzas INTEGER[] FOREIGN KEY NOT NULL,
+--     total_price INTEGER DEFAULT(0),
+--     statusText TEXT NOT NULL
+-- );
