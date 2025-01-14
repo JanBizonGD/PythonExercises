@@ -50,6 +50,8 @@ if __name__ == '__main__':
                 'password' : password
             }
             res = requests.post(base + '/login', json.dumps(payload), headers=headers)
-            print(res.text)
-
-os.environ['TOKEN'] = "Bearer Token"
+            if 'token' in res.json():
+                os.environ['TOKEN'] = "Bearer Token " + res.json()['token']
+                print(os.environ['TOKEN'])
+            else:
+                print('Authorization unsuccessfull! Try again.')
