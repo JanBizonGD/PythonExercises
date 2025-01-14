@@ -1,0 +1,22 @@
+{
+    "Survey_Name": {
+        "Page_Name": {
+            "Question1_Name": {
+                "Description" : "Description of question",
+                "Answers" : [
+                    "Answer1",
+                    "Answer2",
+                    "Answer3"
+                ]
+            },
+            "Question2_Name": {
+                "Description" : "Description of question",
+                "Answers" : [
+                    "Answer1",
+                    "Answer2",
+                    "Answer3"
+                ]
+            }
+        }
+    }
+    }
