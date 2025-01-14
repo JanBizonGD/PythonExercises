@@ -32,7 +32,7 @@ class Pizza():
             name = args[0]
             ingredients = args[1]
             price = args[2]
-            self.id = next(incrementId())
+            self.id = next(Pizza.index_gen)
             self.name = name
             self.ingredients = ingredients.copy()
             self.price = price
@@ -51,18 +51,14 @@ class Order():
         return sum
     def changeStatus(self, status):
         self.status = status
-    def incrementId():
-        id = 0
-        while True:
-            yield id
-            id += 1
+
 class User():
     def __init__(self):
         self.name = ""
-        self.order = Order()
-class AdminToken():
-    def __init__(self):
+        self.password = ""
+        self.admin = False
         self.token = ""
+
 
 # pizzas
 pizzas = [
@@ -91,6 +87,7 @@ def list_menu():
     body += ''.join(map(lambda pizza :
     f"""
                 <div class="item">
+                    <span class="item-id">{pizza.id}</span>
                     <span class="item-name">{pizza.name}</span>
                     <span class="item-price">${pizza.price}</span>
                     <span class="item-ingred">{pizza.ingredients}</span>
