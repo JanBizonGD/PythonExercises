@@ -1,11 +1,12 @@
 #!/usr/bin/python3
-# Create a script that accepts the file name and puts its extension to output. 
+# Create a script that accepts the file name and puts its extension to output.
 #   If there is no extension - an exception should be raised.
 
 # Input : Any filename - no dots on folders names
 
-from os.path import *
+""" Module sys provides argument parsing """
 import sys
+from os.path import splitext
 
 if __name__ == '__main__':
     args = sys.argv[1:]

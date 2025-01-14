@@ -2,8 +2,9 @@
 # Given an input string, count occurrences of all characters within a string
 
 # sys.argv - always string
-# Input : Enything 
+# Input : Enything
 
+""" Module sys provides argument parsing """
 import sys
 
 if __name__ == '__main__':
@@ -11,7 +12,7 @@ if __name__ == '__main__':
     if len(args) <= 0:
         print('Pass at least one argument.')
         exit(1)
-    
+
     for arg in args:
         print(arg)
         unique_letters = set(arg)
