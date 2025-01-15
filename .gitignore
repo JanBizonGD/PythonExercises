@@ -2,3 +2,7 @@
 .conda
 __pycache__
 google-python-exercises
+credentials*
+token.json
+recipients.txt
+.DS_Store
