@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Pizza Menu
+{% endblock %}
+
+{% block body %}
+<section>
+    <h2>Our Pizzas</h2>
+        <div class="menu-category">"""
+{% for row in data %}
+        <div class="item">
+            <span class="item-id">{{row.id}}</span>
+            <span class="item-name">{{row.name}}</span>
+            <span class="item-price">${{row.price}}</span>
+            <span class="item-ingred-set">
+                {% for ingr in row.ingredients %}
+                <span class="item-ingred">{{ingr}}</span>
+                {% endfor %}
+            </span>
+        </div>
+{% endfor %}
+</div>
+</section>
+{% endblock %}

@@ -17,12 +17,11 @@ CREATE TABLE pizza (
     price INTEGER DEFAULT(0)
 );
 
--- DROP TABLE IF EXISTS orderTab;
+DROP TABLE IF EXISTS orderTab;
 
--- CREATE TABLE orderTab (
---     id INTEGER PRIMARY KEY AUTOINCREMENT,
---     user_id INTEGER FOREIGN KEY,
---     pizzas INTEGER[] FOREIGN KEY NOT NULL,
---     total_price INTEGER DEFAULT(0),
---     statusText TEXT NOT NULL
--- );
+CREATE TABLE orderTab (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES login(id),
+    pizzas INTEGER[] REFERENCES pizza(id),
+    statusText TEXT NOT NULL
+);

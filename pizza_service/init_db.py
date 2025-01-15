@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import uuid
 import sqlite3
 
 connection = sqlite3.connect('database.db')
@@ -7,8 +8,9 @@ with open('schema.sql') as f:
     connection.executescript(f.read())
 cur = connection.cursor()
 
-cur.execute("INSERT INTO login (loginText, passwordText, administrator) VALUES (?, ?, ?)",
-            ('admin', 'admin', 'TRUE')
+# executemany
+cur.execute("INSERT INTO login (loginText, passwordText, administrator, bearerToken) VALUES (?, ?, ?, ?)",
+            ('admin', 'admin', 'TRUE', str(uuid.uuid4()))
             )
 cur.execute("INSERT INTO pizza (nameText, ingredients, price) VALUES (?, ?, ?)",
             ("Margaritta", "[sos pomidorowy, cheese]", 20))
@@ -23,7 +25,6 @@ cur.execute("INSERT INTO pizza (nameText, ingredients, price) VALUES (?, ?, ?)",
 cur.execute("INSERT INTO pizza (nameText, ingredients, price) VALUES (?, ?, ?)",
             ("Carbonara", "[sos smietanowy, mozzarella, boczek, jajko, parmezan]", 30))
 
-#cur.execute("INSERT INTO order (user_id, pizzas, totalPrice, status) VALUES (?, ?, ? ,?)")
 
 connection.commit()
 connection.close()
