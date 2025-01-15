@@ -1,22 +1,32 @@
 {
-    "Survey_Name": {
-        "Page_Name": {
-            "Question1_Name": {
-                "Description" : "Description of question",
+    "Meeting survey": {
+        "Place": {
+            "Q1": {
+                "Description" : "Where would you like to meet?",
                 "Answers" : [
-                    "Answer1",
-                    "Answer2",
-                    "Answer3"
+                    "Main square",
+                    "Railway station",
+                    "Shoping mall"
+                ]
+            }
+        },
+        "Time": {
+            "Q1": {
+                "Description" : "When are you available?",
+                "Answers" : [
+                    "At Friday",
+                    "At Saturday",
+                    "At Sunday"
                 ]
             },
-            "Question2_Name": {
-                "Description" : "Description of question",
+            "Q2": {
+                "Description" : "What time of the day do you prefer?",
                 "Answers" : [
-                    "Answer1",
-                    "Answer2",
-                    "Answer3"
+                    "Before noon",
+                    "Noon",
+                    "Afternoon"
                 ]
             }
         }
     }
-    }
+}

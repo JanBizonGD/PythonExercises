@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-# Questions :
+# Questions Format :
+# =========================================
 # {
 #    "Survey_Name": {
 #       "Page_Name": {
@@ -19,15 +20,20 @@
 #                   "Answer3"
 #               ]
 #           }
-#           . . .
 #       }
 #    }
 # }
-# Users - as email from text file.
+# Recipients Format:
+# =========================================
+# abc@griddynamics.com
+# efg@griddynamics.com
+# ............
+#
 #
 # .auth - contains bearer token for surveymonkey API
 # credentials-sheets.json - for first time oauth generation for gmail
 # token.json - generated after successfull first time login, used for auth from then on
+# More info : https://github.com/asweigart/ezgmail
 #
 # -s - for specifing survey from json
 # -r - for specifing email addresses of users
@@ -200,6 +206,8 @@ if __name__ ==  '__main__':
         if  'emails' not in locals():
             raise TypeError('emails', '-r')
         resp = post_survey(survey)
+        if resp:
+            print('========= Survey created =========')
         sm_survey_id = resp.get('id')
         resp = post_collectors_email(sm_survey_id)
         if resp :
