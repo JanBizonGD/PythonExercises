@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# Script for creation of database from schema
 
 import uuid
 import sqlite3

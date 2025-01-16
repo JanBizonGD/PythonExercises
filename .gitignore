@@ -6,3 +6,4 @@ credentials*
 token.json
 recipients.txt
 .DS_Store
+database.db

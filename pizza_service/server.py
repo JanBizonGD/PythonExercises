@@ -1,4 +1,5 @@
 #/usr/lib/python
+# Backend
 from flask import Flask, request, render_template
 import sqlite3, json
 import uuid
@@ -6,23 +7,12 @@ import uuid
 # init_db.py - for initialisation of database
 # schema.sql - description of databases structure
 
+# Launch backend:
 # flask --app ./server.py run --host=0.0.0.0
 # default port : 5000
 
-# curl --request POST \
-#   --url localhost:5000/order \
-#   --header 'Accept: application/json' \
-#   --header 'Authorization: Bearer Tt.2Iv46AZKynGS5hz60l32clVu-jbGpEg2DIv8cCNTdIesZN57fRjDsP8JF4a1yih20uhHM65F9BqQ4lojJ5qRtfNZN..lBrwpRD6Fet0HivpcYEucXw88jjcAK7p4h' \
-#   --header 'Content-Type: application/json' \
-#   --data '{"message": "Place order"}'
 
-def incrementId():
-    id = 0    
-    while True:
-        yield id
-        id +=1
 class Pizza():
-    index_gen = incrementId()
     def __init__(self, *args):
         if len(args) == 4:
             self.id = args[0]
@@ -31,22 +21,12 @@ class Pizza():
             self.price = args[3]
  
 class Order():
-    index_gen = incrementId()
     def __init__(self, pizza_ids, status):
-        self.id = next(Order.index_gen)
         self.pizzas = pizza_ids
         self.status = status
     def changeStatus(self, status):
         self.status = status
 
-class User():
-    def __init__(self):
-        self.name = ""
-        self.password = ""
-        self.admin = False
-        self.token = ""
-
-orders = []
 
 app = Flask(__name__)
 
@@ -68,8 +48,10 @@ def list_menu():
 
 @app.post("/menu")
 def add_pizza():
+    if not check_auth(request.headers):
+        return {}, 401
     payload = request.json
-    pizza = Pizza(payload['name'], payload['ingriedients'], payload['price'])
+    pizza = Pizza(0, payload['name'], payload['ingriedients'], payload['price'])
     conn = get_db_connection()
     curr = conn.cursor()
     curr.execute('INSERT INTO pizza (nameText, ingredients, price) VALUES (?, ?, ?);', (pizza.name, f'{pizza.ingredients}', pizza.price))
@@ -79,6 +61,8 @@ def add_pizza():
 
 @app.delete("/menu/<int:pizza_id>")
 def delete_pizza(pizza_id):
+    if not check_auth(request.headers):
+        return {}, 401
     conn = get_db_connection()
     conn.execute('DELETE FROM pizza WHERE (?) = id', (pizza_id, ))
     conn.commit()
@@ -87,6 +71,7 @@ def delete_pizza(pizza_id):
 
 @app.post("/order")
 def place_order():
+    check_auth(request.headers)
     user_id = request.json['user_id']
     order = Order(request.json['pizzas'], "order placed")
     try:
@@ -102,6 +87,7 @@ def place_order():
 
 @app.get("/order/<int:order_id>")
 def check_status(order_id):
+    check_auth(request.headers)
     try:
         conn = get_db_connection()
         curr = conn.cursor()
@@ -114,7 +100,7 @@ def check_status(order_id):
 @app.delete("/order/<int:order_id>")
 def cancel_order(order_id):
     status = check_status(order_id)["status"]
-    if status != "ready_to_be_delivered":
+    if status != "ready_to_be_delivered" or check_auth(request.headers):
         try:
             conn = get_db_connection()
             curr = conn.cursor()
@@ -179,4 +165,18 @@ def compare_token(token):
     for post in posts:
         if post['bearerToken'] == token:
             return True
+    return False
+
+def check_auth(headers):
+    try:
+        if headers.get('Authorization'):
+            bearer_token = headers.get('Authorization').split()[2]
+            print(bearer_token)
+            conn = get_db_connection()
+            posts = conn.execute('SELECT administrator FROM login WHERE bearerToken = (?)', (bearer_token, )).fetchone()
+            conn.close()
+            return posts['administrator']
+    except TypeError as err:
+        print(f'No authorization: {err}')
+        return {'message' : 'No authorization'}, 401
     return False
